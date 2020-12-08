@@ -1,0 +1,139 @@
+////////////////////////////////////////////////////////////////////////////////////////////
+CREATE TABLE [dbo].[Users](
+	[EmpCode] [nvarchar](10) NOT NULL,
+	[FullName] [nvarchar](max) NULL,
+	[Password] [nvarchar](max) NULL,
+	[Team] [nvarchar](20) NULL,
+	[Position] [nvarchar](20) NULL,
+	[Email] [nvarchar](max) NULL,
+	[Cellphone] [nvarchar](50) NULL,
+	[TeamID] [int] NULL,
+ CONSTRAINT [PK_Users] PRIMARY KEY CLUSTERED 
+(
+	[EmpCode] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+
+ALTER TABLE [dbo].[Users]  WITH CHECK ADD  CONSTRAINT [FK_Users_Teams] FOREIGN KEY([TeamID])
+REFERENCES [dbo].[Teams] ([ID])
+GO
+
+ALTER TABLE [dbo].[Users] CHECK CONSTRAINT [FK_Users_Teams]
+------------------------------------------------------------------------------------------------------------------------------------
+CREATE TABLE [dbo].[Teams](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [varchar](50) NOT NULL,
+ CONSTRAINT [PK_Teams] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+------------------------------------------------------------------------------------------------------------------------------------
+CREATE TABLE [dbo].[Roles](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [varchar](50) NOT NULL,
+	[Priority] [int] NULL DEFAULT ((1)),
+PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+------------------------------------------------------------------------------------------------------------------------------------
+CREATE TABLE [dbo].[UserRoles](
+	[EmpCode] [nvarchar](10) NOT NULL,
+	[RoleID] [int] NOT NULL
+) ON [PRIMARY]
+
+GO
+
+ALTER TABLE [dbo].[UserRoles]  WITH CHECK ADD  CONSTRAINT [FK_UserRoles_Roles] FOREIGN KEY([RoleID])
+REFERENCES [dbo].[Roles] ([ID])
+GO
+
+ALTER TABLE [dbo].[UserRoles] CHECK CONSTRAINT [FK_UserRoles_Roles]
+GO
+
+ALTER TABLE [dbo].[UserRoles]  WITH CHECK ADD  CONSTRAINT [FK_UserRoles_Users] FOREIGN KEY([EmpCode])
+REFERENCES [dbo].[Users] ([EmpCode])
+GO
+
+ALTER TABLE [dbo].[UserRoles] CHECK CONSTRAINT [FK_UserRoles_Users]
+------------------------------------------------------------------------------------------------------------------------------------
+CREATE TABLE [dbo].[Laptops](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [nvarchar](max) NULL,
+	[Serial] [nvarchar](max) NULL,
+	[IsActive] [bit] NULL,
+	[Status] [int] NULL,
+	[Battery] [bit] NULL,
+	[Mouse] [bit] NULL,
+	[Charger] [bit] NULL,
+	[USB] [bit] NULL,
+	[CreatedBy] [nvarchar](max) NULL,
+	[CreatedDate] [datetime] NULL,
+	[ModifiedBy] [nvarchar](max) NULL,
+	[ModifiedDate] [datetime] NULL,
+ CONSTRAINT [PK_Laptops] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+------------------------------------------------------------------------------------------------------------------------------------
+CREATE TABLE [dbo].[Booking_Laptop](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[EmpCode] [nvarchar](10) NULL,
+	[FullName] [nvarchar](max) NULL,
+	[Position] [nvarchar](20) NULL,
+	[Team] [nvarchar](20) NULL,
+	[Reason] [nvarchar](max) NULL,
+	[IsOverDue] [bit] NULL,
+	[Cancel] [bit] NULL,
+	[CreatedDate] [datetime] NULL,
+	[CreatedBy] [nvarchar](max) NULL,
+	[ModifiedDate] [datetime] NULL,
+	[ModifiedBy] [nvarchar](max) NULL,
+ CONSTRAINT [PK_Booking_Laptop] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+------------------------------------------------------------------------------------------------------------------------------------
+CREATE TABLE [dbo].[Booking_Laptop_Items](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[LaptopID] [int] NULL,
+	[RequestID] [int] NULL,
+	[Item] [nvarchar](max) NULL,
+	[Serial] [nvarchar](max) NULL,
+	[ReturnDate] [datetime] NULL,
+	[IsOverDue] [bit] NULL,
+	[BookingApprovedBy] [nvarchar](max) NULL,
+	[BookingApprovedStatus] [int] NULL,
+	[BookingApprovedRemark] [nvarchar](max) NULL,
+	[BookingApprovedDate] [datetime] NULL,
+	[ReturnApprovedBy] [nvarchar](max) NULL,
+	[ReturnApprovedStatus] [int] NULL,
+	[ReturnApprovedRemark] [nvarchar](max) NULL,
+	[ReturnApprovedDate] [datetime] NULL,
+ CONSTRAINT [PK_Booking_Laptop_Items] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+
+ALTER TABLE [dbo].[Booking_Laptop_Items]  WITH CHECK ADD  CONSTRAINT [FK_Booking_Laptop_Items] FOREIGN KEY([RequestID])
+REFERENCES [dbo].[Booking_Laptop] ([ID])
+GO
+
+ALTER TABLE [dbo].[Booking_Laptop_Items] CHECK CONSTRAINT [FK_Booking_Laptop_Items]
+GO
+
+ALTER TABLE [dbo].[Booking_Laptop_Items]  WITH CHECK ADD  CONSTRAINT [FK_Laptops] FOREIGN KEY([LaptopID])
+REFERENCES [dbo].[Laptops] ([ID])
+GO
+
+ALTER TABLE [dbo].[Booking_Laptop_Items] CHECK CONSTRAINT [FK_Laptops]
+///////////////////////////////////////////////////////////////////////////////////////////
