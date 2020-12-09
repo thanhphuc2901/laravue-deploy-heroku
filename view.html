@@ -1,4 +1,220 @@
-////////////////////////////////////////////////////////////////////////////////////////////
+USE [DB_ITAssets]
+GO
+
+/****** Object:  Table [dbo].[Booking_Laptop]    Script Date: 09/12/2020 19:32:15 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Booking_Laptop](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[EmpCode] [nvarchar](10) NULL,
+	[FullName] [nvarchar](max) NULL,
+	[Position] [nvarchar](20) NULL,
+	[Team] [nvarchar](20) NULL,
+	[Reason] [nvarchar](max) NULL,
+	[IsOverDue] [bit] NULL,
+	[Cancel] [bit] NULL,
+	[CreatedDate] [datetime] NULL,
+	[CreatedBy] [nvarchar](max) NULL,
+	[ModifiedDate] [datetime] NULL,
+	[ModifiedBy] [nvarchar](max) NULL,
+ CONSTRAINT [PK_Booking_Laptop] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+
+
+USE [DB_ITAssets]
+GO
+
+/****** Object:  Table [dbo].[Booking_Laptop_Items]    Script Date: 09/12/2020 19:32:31 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Booking_Laptop_Items](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[LaptopID] [int] NULL,
+	[RequestID] [int] NULL,
+	[Item] [nvarchar](max) NULL,
+	[Serial] [nvarchar](max) NULL,
+	[BookingDate] [nvarchar](max) NULL,
+	[BookingTime] [nvarchar](max) NULL,
+	[ReturnDate] [nvarchar](max) NULL,
+	[ReturnTime] [nvarchar](max) NULL,
+	[IsOverDue] [bit] NULL,
+	[BookingApprovedBy] [nvarchar](max) NULL,
+	[BookingApprovedStatus] [bit] NULL,
+	[BookingApprovedRemark] [nvarchar](max) NULL,
+	[BookingApprovedDate] [datetime] NULL,
+	[ReturnApprovedBy] [nvarchar](max) NULL,
+	[ReturnApprovedStatus] [bit] NULL,
+	[ReturnApprovedRemark] [nvarchar](max) NULL,
+	[ReturnApprovedDate] [datetime] NULL,
+ CONSTRAINT [PK_Booking_Laptop_Items] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+
+ALTER TABLE [dbo].[Booking_Laptop_Items]  WITH CHECK ADD  CONSTRAINT [FK_Booking_Laptop_Items] FOREIGN KEY([RequestID])
+REFERENCES [dbo].[Booking_Laptop] ([ID])
+GO
+
+ALTER TABLE [dbo].[Booking_Laptop_Items] CHECK CONSTRAINT [FK_Booking_Laptop_Items]
+GO
+
+ALTER TABLE [dbo].[Booking_Laptop_Items]  WITH CHECK ADD  CONSTRAINT [FK_Booking_Laptop_Items_Laptop] FOREIGN KEY([LaptopID])
+REFERENCES [dbo].[Laptops] ([ID])
+GO
+
+ALTER TABLE [dbo].[Booking_Laptop_Items] CHECK CONSTRAINT [FK_Booking_Laptop_Items_Laptop]
+GO
+
+
+USE [DB_ITAssets]
+GO
+
+/****** Object:  Table [dbo].[Laptops]    Script Date: 09/12/2020 19:32:49 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Laptops](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [nvarchar](max) NULL,
+	[Serial] [nvarchar](max) NULL,
+	[IsActive] [bit] NULL,
+	[Status] [int] NULL,
+	[Battery] [bit] NULL,
+	[Mouse] [bit] NULL,
+	[Charger] [bit] NULL,
+	[USB] [bit] NULL,
+	[CreatedBy] [nvarchar](max) NULL,
+	[CreatedDate] [datetime] NULL,
+	[ModifiedBy] [nvarchar](max) NULL,
+	[ModifiedDate] [datetime] NULL,
+ CONSTRAINT [PK_Laptops] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+
+
+
+USE [DB_ITAssets]
+GO
+
+/****** Object:  Table [dbo].[Roles]    Script Date: 09/12/2020 19:33:25 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [dbo].[Roles](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [varchar](50) NOT NULL,
+	[Priority] [int] NULL DEFAULT ((1)),
+PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+
+USE [DB_ITAssets]
+GO
+
+/****** Object:  Table [dbo].[Teams]    Script Date: 09/12/2020 19:33:42 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [dbo].[Teams](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [varchar](50) NOT NULL,
+ CONSTRAINT [PK_Teams] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+
+USE [DB_ITAssets]
+GO
+
+/****** Object:  Table [dbo].[UserRoles]    Script Date: 09/12/2020 19:34:03 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[UserRoles](
+	[EmpCode] [nvarchar](10) NOT NULL,
+	[RoleID] [int] NOT NULL
+) ON [PRIMARY]
+
+GO
+
+ALTER TABLE [dbo].[UserRoles]  WITH CHECK ADD  CONSTRAINT [FK_UserRoles_Roles] FOREIGN KEY([RoleID])
+REFERENCES [dbo].[Roles] ([ID])
+GO
+
+ALTER TABLE [dbo].[UserRoles] CHECK CONSTRAINT [FK_UserRoles_Roles]
+GO
+
+ALTER TABLE [dbo].[UserRoles]  WITH CHECK ADD  CONSTRAINT [FK_UserRoles_Users] FOREIGN KEY([EmpCode])
+REFERENCES [dbo].[Users] ([EmpCode])
+GO
+
+ALTER TABLE [dbo].[UserRoles] CHECK CONSTRAINT [FK_UserRoles_Users]
+GO
+
+
+USE [DB_ITAssets]
+GO
+
+/****** Object:  Table [dbo].[Users]    Script Date: 09/12/2020 19:34:32 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
 CREATE TABLE [dbo].[Users](
 	[EmpCode] [nvarchar](10) NOT NULL,
 	[FullName] [nvarchar](max) NULL,
@@ -21,119 +237,367 @@ REFERENCES [dbo].[Teams] ([ID])
 GO
 
 ALTER TABLE [dbo].[Users] CHECK CONSTRAINT [FK_Users_Teams]
-------------------------------------------------------------------------------------------------------------------------------------
-CREATE TABLE [dbo].[Teams](
-	[ID] [int] IDENTITY(1,1) NOT NULL,
-	[Name] [varchar](50) NOT NULL,
- CONSTRAINT [PK_Teams] PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-------------------------------------------------------------------------------------------------------------------------------------
-CREATE TABLE [dbo].[Roles](
-	[ID] [int] IDENTITY(1,1) NOT NULL,
-	[Name] [varchar](50) NOT NULL,
-	[Priority] [int] NULL DEFAULT ((1)),
-PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-------------------------------------------------------------------------------------------------------------------------------------
-CREATE TABLE [dbo].[UserRoles](
-	[EmpCode] [nvarchar](10) NOT NULL,
-	[RoleID] [int] NOT NULL
-) ON [PRIMARY]
-
 GO
 
-ALTER TABLE [dbo].[UserRoles]  WITH CHECK ADD  CONSTRAINT [FK_UserRoles_Roles] FOREIGN KEY([RoleID])
-REFERENCES [dbo].[Roles] ([ID])
-GO
 
-ALTER TABLE [dbo].[UserRoles] CHECK CONSTRAINT [FK_UserRoles_Roles]
-GO
+using Assets.Model.EF;
+using Assets.Web.Common;
+using Assets.Web.Models;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
 
-ALTER TABLE [dbo].[UserRoles]  WITH CHECK ADD  CONSTRAINT [FK_UserRoles_Users] FOREIGN KEY([EmpCode])
-REFERENCES [dbo].[Users] ([EmpCode])
-GO
+namespace Assets.Web.Controllers
+{
+    public class OrderController : BaseController
+    {
+        private AssetDbContext dbContext;
 
-ALTER TABLE [dbo].[UserRoles] CHECK CONSTRAINT [FK_UserRoles_Users]
-------------------------------------------------------------------------------------------------------------------------------------
-CREATE TABLE [dbo].[Laptops](
-	[ID] [int] IDENTITY(1,1) NOT NULL,
-	[Name] [nvarchar](max) NULL,
-	[Serial] [nvarchar](max) NULL,
-	[IsActive] [bit] NULL,
-	[Status] [int] NULL,
-	[Battery] [bit] NULL,
-	[Mouse] [bit] NULL,
-	[Charger] [bit] NULL,
-	[USB] [bit] NULL,
-	[CreatedBy] [nvarchar](max) NULL,
-	[CreatedDate] [datetime] NULL,
-	[ModifiedBy] [nvarchar](max) NULL,
-	[ModifiedDate] [datetime] NULL,
- CONSTRAINT [PK_Laptops] PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-------------------------------------------------------------------------------------------------------------------------------------
-CREATE TABLE [dbo].[Booking_Laptop](
-	[ID] [int] IDENTITY(1,1) NOT NULL,
-	[EmpCode] [nvarchar](10) NULL,
-	[FullName] [nvarchar](max) NULL,
-	[Position] [nvarchar](20) NULL,
-	[Team] [nvarchar](20) NULL,
-	[Reason] [nvarchar](max) NULL,
-	[IsOverDue] [bit] NULL,
-	[Cancel] [bit] NULL,
-	[CreatedDate] [datetime] NULL,
-	[CreatedBy] [nvarchar](max) NULL,
-	[ModifiedDate] [datetime] NULL,
-	[ModifiedBy] [nvarchar](max) NULL,
- CONSTRAINT [PK_Booking_Laptop] PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-------------------------------------------------------------------------------------------------------------------------------------
-CREATE TABLE [dbo].[Booking_Laptop_Items](
-	[ID] [int] IDENTITY(1,1) NOT NULL,
-	[LaptopID] [int] NULL,
-	[RequestID] [int] NULL,
-	[Item] [nvarchar](max) NULL,
-	[Serial] [nvarchar](max) NULL,
-	[ReturnDate] [datetime] NULL,
-	[IsOverDue] [bit] NULL,
-	[BookingApprovedBy] [nvarchar](max) NULL,
-	[BookingApprovedStatus] [int] NULL,
-	[BookingApprovedRemark] [nvarchar](max) NULL,
-	[BookingApprovedDate] [datetime] NULL,
-	[ReturnApprovedBy] [nvarchar](max) NULL,
-	[ReturnApprovedStatus] [int] NULL,
-	[ReturnApprovedRemark] [nvarchar](max) NULL,
-	[ReturnApprovedDate] [datetime] NULL,
- CONSTRAINT [PK_Booking_Laptop_Items] PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+        public OrderController()
+        {
+            dbContext = new AssetDbContext();
+        }
 
-GO
+        // GET: Asset
+        /// <summary>
+        /// Hàm show dữ liệu sử dụng ajax
+        /// </summary>
+        /// <param name="searchString"></param>
+        /// <param name="page"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        public ActionResult Index()
+        {
+            var lap = dbContext.Laptops.ToList();
+            ViewBag.Free = lap.Where(t => (t.IsActive == null || t.IsActive == false) && t.Status != 0);
+            ViewBag.Active = lap.Where(t => (t.IsActive == true) && t.Status != 0);
+            ViewBag.Break = lap.Where(t => t.Status == 0);
+            ViewBag.CountFree = lap.Where(t => (t.IsActive == null || t.IsActive == false) && t.Status != 0).Count();
+            ViewBag.CountActive = lap.Where(t => (t.IsActive == true) && t.Status != 0).Count();
+            ViewBag.CountBreak = lap.Where(t => t.Status == 0).Count();
+            return View();
+        }
 
-ALTER TABLE [dbo].[Booking_Laptop_Items]  WITH CHECK ADD  CONSTRAINT [FK_Booking_Laptop_Items] FOREIGN KEY([RequestID])
-REFERENCES [dbo].[Booking_Laptop] ([ID])
-GO
+        [HttpPost]
+        public ActionResult FetchData()
+        {
+            var currentRole = (HttpContext.User as CustomPrincipal).PriorityRole;
 
-ALTER TABLE [dbo].[Booking_Laptop_Items] CHECK CONSTRAINT [FK_Booking_Laptop_Items]
-GO
+            var items = dbContext.Booking_Laptop_Items.ToList();
 
-ALTER TABLE [dbo].[Booking_Laptop_Items]  WITH CHECK ADD  CONSTRAINT [FK_Laptops] FOREIGN KEY([LaptopID])
-REFERENCES [dbo].[Laptops] ([ID])
-GO
+            var user = (UserLogin)Session[CommonConstants.USER_SESSION];
 
-ALTER TABLE [dbo].[Booking_Laptop_Items] CHECK CONSTRAINT [FK_Laptops]
-///////////////////////////////////////////////////////////////////////////////////////////
+            var model = dbContext.Booking_Laptop.Where(b => currentRole >= 1).OrderByDescending(x => x.ID).ToList();
+
+            return Json(new { data = model, items, currentRole, recordsTotal = dbContext.Booking_Laptop.Count(), recordsFiltered = model.Count() });
+        }
+
+        [AuthorizeUser(AccessLevel = 1)]
+        [HttpPost]
+        public ActionResult Create(Booking_Laptop model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return Content("Bạn cần nhập đầy đủ các thông tin");
+            }
+
+            model.CreatedDate = DateTime.Now;
+            var user = (UserLogin)Session[CommonConstants.USER_SESSION];
+            model.CreatedBy = user.EmpCode + "|" + user.FullName;
+
+            var booking = dbContext.Booking_Laptop.Add(model);
+            dbContext.SaveChanges();
+            return Content("Success");
+        }
+
+        /// <summary>
+        /// Show danh sách phê duyệt cho ITT
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="from"></param>
+        /// <param name="to"></param>
+        /// <param name="team"></param>
+        /// <param name="empcode"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult FetchApproveData()
+        {
+            var user = (UserLogin)Session[CommonConstants.USER_SESSION];
+            var res = new List<Booking_Laptop>();
+
+            var isAdmin = (HttpContext.User as CustomPrincipal).PriorityRole >= 2;
+
+            res = dbContext.Booking_Laptop
+           .Where(bl => dbContext.Booking_Laptop_Items.Any(i => i.RequestID == bl.ID && i.ReturnApprovedStatus == null) && (isAdmin))
+           .OrderByDescending(x => x.ID)
+           .ToList();
+
+            var recordNumber = dbContext.Booking_Laptop.Count();
+            return Json(new { data = res, recordsTotal = recordNumber, recordsFiltered = recordNumber });
+        }
+
+        [AuthorizeUser(AccessLevel = 2)]
+        public ActionResult ApproveDetail(int id)
+        {
+            var booking = dbContext.Booking_Laptop.Find(id);
+            var bookingItems = dbContext.Booking_Laptop_Items.Where(t => t.RequestID == id).OrderByDescending(t => t.ID).ToList();
+            booking.Booking_Laptop_Items = bookingItems;
+            return View(booking);
+        }
+
+        [AuthorizeUser(AccessLevel = 2)]
+        public ActionResult Approve()
+        {
+            return View();
+        }
+
+        [AuthorizeUser(AccessLevel = 2)]
+        [HttpPost]
+        public ActionResult BookingApprove(int id, int itemId, string remark, bool status)
+        {
+            var bookingItems = dbContext.Booking_Laptop_Items.Find(itemId);
+            var user = (UserLogin)Session[CommonConstants.USER_SESSION];
+            bookingItems.BookingApprovedBy = user.EmpCode + "|" + user.FullName;
+            bookingItems.BookingApprovedDate = DateTime.Now;
+            bookingItems.BookingApprovedRemark = remark;
+            bookingItems.BookingApprovedStatus = status;
+
+            dbContext.SaveChanges();
+            return Content(JsonConvert.SerializeObject(bookingItems), "application/json");
+        }
+
+        [AuthorizeUser(AccessLevel = 2)]
+        [HttpPost]
+        public ActionResult ReturnApprove(int id, int itemId, string remark, bool status)
+        {
+            var bookingItems = dbContext.Booking_Laptop_Items.Find(itemId);
+            var user = (UserLogin)Session[CommonConstants.USER_SESSION];
+            bookingItems.ReturnApprovedBy = user.EmpCode + "|" + user.FullName;
+            bookingItems.ReturnApprovedDate = DateTime.Now;
+            bookingItems.ReturnApprovedRemark = remark;
+            bookingItems.ReturnApprovedStatus = status;
+
+            dbContext.SaveChanges();
+            return Content(JsonConvert.SerializeObject(bookingItems), "application/json");
+        }
+
+        public ActionResult Detail(int id)
+        {
+            var booking = dbContext.Booking_Laptop.Find(id);
+            var bookingItems = dbContext.Booking_Laptop_Items.Where(t => t.RequestID == id).ToList();
+            booking.Booking_Laptop_Items = bookingItems;
+            return View(booking);
+        }
+
+        [AuthorizeUser(AccessLevel = 2)]
+        [HttpGet]
+        public ActionResult Delete(int id)
+        {
+            var bookingItems = dbContext.Booking_Laptop_Items.Where(t => t.RequestID == id).ToList();
+            dbContext.Booking_Laptop_Items.RemoveRange(bookingItems);
+
+            var booking = dbContext.Booking_Laptop.FirstOrDefault(t => t.ID == id);
+            dbContext.Booking_Laptop.Remove(booking);
+
+            dbContext.SaveChanges();
+
+            return Content("Success");
+        }
+    }
+}
+
+@model Assets.Model.EF.Booking_Laptop
+@{
+    ViewBag.Title = "Chi tiết yêu cầu mượn laptop";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section styles{
+    <link href="~/adminlte/css/jquery-datatables.min.css" rel="stylesheet" />
+    <link href="~/adminlte/css/jquery-confirm.css" rel="stylesheet" />
+    <link href="~/adminlte/css/customize.css" rel="stylesheet" />
+    <style>
+        .content-wrapper > .content {
+            padding: 0 0 !important;
+        }
+
+        #equip-table_info {
+            margin-left: 10px;
+        }
+
+        #equip-table_paginate {
+            margin-right: 10px;
+        }
+
+        #equip-table_filter {
+            display: none;
+        }
+
+        .btn-delete:hover, .btn-edit:hover {
+            box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+        }
+
+        label {
+            font-weight: 500 !important;
+            font-size: 0.9rem;
+        }
+    </style>
+}
+
+<div class="form-horizontal">
+    <!--Cột bên trái dành cho form đăng ký-->
+    <div class="col-md-12 row-form">
+        <div class="column form-horizontal form-left col-md-7">
+            <div class="form-group row-1 input-group">
+                <label class="control-label col-md-2 lb">Mã CNV</label>
+                <div class="col-md-3 input-group input-group-sm">
+                    <input type="hidden" id="goOutID" value="@Model.ID" />
+                    <input class="form-control input-previous-button col-md-12" id="txtEmpCodeGO" readonly value="@Model.EmpCode" />
+                </div>
+            </div>
+
+            <div class="form-group input-group">
+                <label class="control-label col-md-2">Lý do</label>
+                <div class="col-md-10 input-group-sm">
+                    <textarea class="form-control col-md-12" style="resize: none" readonly>@Model.Reason</textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="column col-md-1 col-mid"></div>
+
+
+        <!--Cột bên phải dành cho thông tin nhân viên-->
+        <div class="column form-horizontal form-right col-md-4">
+            <!--Ảnh profile-->
+            <div class="form-group col-12 profile-img">
+                <div class="img-profile">
+                    <img id="img-profile" src="~/Assets/img/the-world.jpg" />
+                </div>
+            </div>
+            <!--Thông tin profile-->
+            <div class="form-group input-group profile input-group-sm">
+                <label class="control-label col-md-3">Họ và tên</label>
+                <input readonly class="form-control input-previous-button col-9 " id="txtFullName" value="@Model.FullName" />
+            </div>
+            <div class="form-group input-group profile input-group-sm">
+                <label class="control-label col-md-3">Vị trí</label>
+                <input readonly class="form-control input-previous-button col-9 " id="txtPosition" value="@Model.Position" />
+            </div>
+            <div class="form-group input-group profile input-group-sm">
+                <label class="control-label col-md-3">Phòng ban</label>
+                <input readonly class="form-control input-previous-button col-9 " id="txtTeam" value="@Model.Team" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<br />
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="card">
+            <!-- /.card-header -->
+            <div class="card-body">
+                <div style="width:100%; overflow-x:auto">
+                    <!--Bảng dữ liệu Về sớm-->
+                    <table class="table table-hover table-bordered" id="approve-table">
+                        <!--Tiêu đề cột-->
+                        <thead>
+                            <tr class="table-heading" style="background: #17a2b8;text-align: center">
+                                <td>ID</td>
+                                <th>Tên máy</th>
+                                <th>Thời gian mượn máy</th>
+                                <th colspan="4">ITT phê duyệt mượn</th>
+                                <th>Thời gian trả máy</th>
+                                <th colspan="4">ITT phê duyệt trả</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Booking_Laptop_Items)
+                            {
+                                <tr>
+                                    <td>@item.ID</td>
+                                    <td>
+                                        <input type="hidden" class="itemId" value="@item.ID" />
+                                        @item.Item
+                                    </td>
+                                    <td>
+                                        <span>@item.BookingDate  @item.BookingTime</span>
+                                    <td class="input-group-sm">
+                                        @if (@item.BookingApprovedBy != null)
+                                        {
+                                            @item.BookingApprovedBy
+                                        }
+                                        else
+                                        {
+                                            <i class="fas fa-question" title="Đang chờ phòng IT phê duyệt"></i>
+                                        }
+                                    </td>
+                                    <td class="input-group-sm">
+                                        @if (@item.BookingApprovedStatus == true)
+                                        {
+                                            <i class="fas fa-check-square" style="color: dodgerblue"></i>
+                                        }
+                                        else if (@item.BookingApprovedStatus == false)
+                                        {
+                                            <i class="fas fa-times" style="color: red"></i>
+                                        }
+                                    </td>
+                                    <td class="input-group-sm">@item.BookingApprovedDate</td>
+                                    <td class="input-group-sm">@item.BookingApprovedRemark</td>
+                                    <td>
+                                        <span>@item.ReturnDate  @item.ReturnTime</span>
+                                    </td>
+                                    <td class="input-group-sm">
+                                        @if (@item.ReturnApprovedBy != null)
+                                        {
+                                            @item.ReturnApprovedBy
+                                        }
+                                        else
+                                        {
+                                            <i class="fas fa-question" title="Đang chờ phòng IT phê duyệt"></i>
+                                        }
+                                    </td>
+                                    <td class="input-group-sm">
+                                        @if (@item.ReturnApprovedStatus == true)
+                                        {
+                                            <i class="fas fa-check-square" style="color: dodgerblue"></i>
+                                        }
+                                        else if (@item.ReturnApprovedStatus == false)
+                                        {
+                                            <i class="fas fa-times" style="color: red"></i>
+                                        }
+                                    </td>
+                                    <td>@item.ReturnApprovedDate</td>
+                                    <td>@item.ReturnApprovedRemark</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div style="text-align: center">
+                    <label id="return-approve" class="btn top-space btn-sm btn-back" title="Trở lại" style="cursor: pointer; background: orange; color: white">
+                        <i class="fas fa-arrow-left"></i>&nbsp; Trở lại
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@section scripts{
+    <script src="~/adminlte/js/jquery-confirm.js"></script>
+    <script>
+        $('#return-approve').on("click", () => {
+            window.location.href = "/Order/Index"
+        })
+
+        $("#booking").removeClass('collapse');
+        $("#booking").removeClass('collapsed');
+        $("#approve").addClass('active');
+        $("#li-booking").addClass('menu-open');
+    </script>
+}
